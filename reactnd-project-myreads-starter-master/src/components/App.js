@@ -22,15 +22,29 @@ class BooksApp extends Component {
     })
   }
 
+  isNewBooks = (book) => {
+    const tt = this.state.myBooks.filter((b) => {
+      return b.id === book.id
+    })
+
+    return tt.length === 0? true: false
+  } 
+
   changeShelf = (shelf, book) => {
-    this.setState((state) => ({
-      myBooks: state.myBooks.map(b => {
-        if (b.id === book.id) {
-          b.shelf = shelf
-        }
-        return b
-      })
-    }))
+    if (!this.isNewBooks(book)) {
+      this.setState((state) => ({
+        myBooks: state.myBooks.map(b => {
+          if (b.id === book.id) {
+            b.shelf = shelf
+          }
+          return b
+        })
+      }))
+    } else {
+      this.setState((state) => ({
+        myBooks: state.myBooks.concat([book])
+      }))
+    }
 
     BooksAPI.update(book, shelf)
   }
@@ -44,7 +58,8 @@ class BooksApp extends Component {
             onChangeShelf={this.changeShelf} />
         )} />
         <Route exact path="/search" render={() => (
-          <SearchBooks />
+          <SearchBooks 
+            onChangeShelf={this.changeShelf} />
         )} />
       </div>
     )
