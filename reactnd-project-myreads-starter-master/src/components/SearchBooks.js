@@ -7,6 +7,7 @@ import * as BooksAPI from './../utils/BooksAPI'
 
 class SearchBooks extends Component {
   static propTypes = {
+    myBooks: PropTypes.array.isRequired,
     onChangeShelf: PropTypes.func.isRequired
   }  
 
@@ -15,10 +16,24 @@ class SearchBooks extends Component {
     books: []
   }
 
+  sycShelf = (books) => {
+    const { myBooks } = this.props;
+
+    books.forEach(function(element) {
+      element.shelf = "none"
+      myBooks.forEach(function(el) {
+        if (el.id === element.id)
+          element.shelf = el.shelf
+      })
+      // console.log('## syc:', element.id)
+    }, this)
+  }
+
   updateQuery = (query) => {
     this.setState({ query })
 
     BooksAPI.search(query, 10).then((books) => {
+      this.sycShelf(books)
       !books.error? this.setState({ books }): this.setState({ books: [] })
     }).catch((e) => {
       setTimeout(() => this.setState({ books: [] }), 1500)
@@ -28,7 +43,7 @@ class SearchBooks extends Component {
   handleChange = (shelf, book) => {
     const { onChangeShelf } = this.props;
     onChangeShelf(shelf, book)
-    
+
     console.log('## book id:', book.id)
     const books = this.state.books.map(b => {
       if (b.id === book.id) {
@@ -39,7 +54,7 @@ class SearchBooks extends Component {
 
     this.setState({ books })
 
-    BooksAPI.update(book, shelf)
+    // BooksAPI.update(book, shelf)
   }
 
   render() {
