@@ -23,14 +23,14 @@ class BooksApp extends Component {
   }
 
   changeShelf = (shelf, book) => {
-    const myBooks = this.state.myBooks.map(b => {
-      if (b.id === book.id) {
-        b.shelf = shelf
-      }
-      return b
-    })
-
-    this.setState({ myBooks })
+    this.setState((state) => ({
+      myBooks: state.myBooks.map(b => {
+        if (b.id === book.id) {
+          b.shelf = shelf
+        }
+        return b
+      })
+    }))
 
     BooksAPI.update(book, shelf)
   }
