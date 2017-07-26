@@ -6,7 +6,7 @@ class Bookshelves extends Component {
   static propTypes = {
     myBooks: PropTypes.array.isRequired,
     onChangeShelf: PropTypes.func.isRequired
-  }  
+  }
 
   render() {
     const { myBooks, onChangeShelf } = this.props;
@@ -46,7 +46,7 @@ class Bookshelves extends Component {
                         </div>
                       </div>
                     </li>
-                  ))}                                  
+                  ))}
                 </ol>
               </div>
             </div>
@@ -76,7 +76,7 @@ class Bookshelves extends Component {
                         </div>
                       </div>
                     </li>
-                  ))}                 
+                  ))}
                 </ol>
               </div>
             </div>
@@ -84,7 +84,7 @@ class Bookshelves extends Component {
             <div className="bookshelf">
               <h2 className="bookshelf-title">Read</h2>
               <div className="bookshelf-books">
-                <ol className="books-grid">                  
+                <ol className="books-grid">
                   {readShelf.map(book => (
                     <li key={book.id}>
                       <div className="book">
@@ -106,7 +106,7 @@ class Bookshelves extends Component {
                         </div>
                       </div>
                     </li>
-                  ))}                  
+                  ))}
                 </ol>
               </div>
             </div>

@@ -9,13 +9,17 @@ class SearchBooks extends Component {
   static propTypes = {
     myBooks: PropTypes.array.isRequired,
     onChangeShelf: PropTypes.func.isRequired
-  }  
+  }
 
-  state = { 
+  state = {
     query: '',
     books: []
   }
 
+  /**
+  * @description Synchronize bookshelf information
+  * @param {book} book
+  */
   sycShelf = (books) => {
     const { myBooks } = this.props;
 
@@ -25,7 +29,6 @@ class SearchBooks extends Component {
         if (el.id === element.id)
           element.shelf = el.shelf
       })
-      // console.log('## syc:', element.id)
     }, this)
   }
 
@@ -44,7 +47,6 @@ class SearchBooks extends Component {
     const { onChangeShelf } = this.props;
     onChangeShelf(shelf, book)
 
-    console.log('## book id:', book.id)
     const books = this.state.books.map(b => {
       if (b.id === book.id) {
         b.shelf = shelf
@@ -53,40 +55,24 @@ class SearchBooks extends Component {
     })
 
     this.setState({ books })
-
-    // BooksAPI.update(book, shelf)
   }
 
   render() {
     const { query, books } = this.state;
-    // const { onChangeShelf } = this.props;
-    // let showingBooks = null;
-    // if (query) {
-    //   const match = new RegExp(escapeRegExp(query), 'i');
-    // } else {
-    // }
 
     return (
       <div className="search-books">
-        <div className="search-books-bar">      
+        <div className="search-books-bar">
           <Link
             to="/"
             className="close-search">Close</Link>
 
           <div className="search-books-input-wrapper">
-            {/* 
-              NOTES: The search from BooksAPI is limited to a particular set of search terms.
-              You can find these search terms here:
-              https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-              
-              However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-              you don't find a specific author or title. Every search is limited by search terms.
-            */}
             <input
               type="text"
               placeholder="Search by title or author"
               value={query}
-              onChange={(event) => this.updateQuery(event.target.value)} />            
+              onChange={(event) => this.updateQuery(event.target.value)} />
           </div>
         </div>
         <div className="search-books-results">

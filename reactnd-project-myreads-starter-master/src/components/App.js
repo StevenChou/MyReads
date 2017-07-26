@@ -10,7 +10,7 @@ import './../../style/App.css'
 class BooksApp extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       myBooks: []
     }
@@ -22,14 +22,24 @@ class BooksApp extends Component {
     })
   }
 
+  /**
+  * @description To determine whether it has joined the shelves
+  * @param {book} book
+  * @returns {boolean}
+  */
   isNewBooks = (book) => {
     const tt = this.state.myBooks.filter((b) => {
       return b.id === book.id
     })
 
     return tt.length === 0? true: false
-  } 
+  }
 
+  /**
+  * @description Change the book to the specified bookshelf
+  * @param {string} shelf
+  * @param {book} book
+  */
   changeShelf = (shelf, book) => {
     if (!this.isNewBooks(book)) {
       this.setState((state) => ({
@@ -53,12 +63,12 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
-          <Bookshelves 
+          <Bookshelves
             myBooks={this.state.myBooks}
             onChangeShelf={this.changeShelf} />
         )} />
         <Route exact path="/search" render={() => (
-          <SearchBooks 
+          <SearchBooks
             myBooks={this.state.myBooks}
             onChangeShelf={this.changeShelf} />
         )} />
