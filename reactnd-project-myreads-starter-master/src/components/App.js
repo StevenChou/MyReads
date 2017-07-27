@@ -23,38 +23,15 @@ class BooksApp extends Component {
   }
 
   /**
-  * @description To determine whether it has joined the shelves
-  * @param {book} book
-  * @returns {boolean}
-  */
-  isNewBooks = (book) => {
-    const tt = this.state.myBooks.filter((b) => {
-      return b.id === book.id
-    })
-
-    return tt.length === 0? true: false
-  }
-
-  /**
   * @description Change the book to the specified bookshelf
   * @param {string} shelf
   * @param {book} book
   */
   changeShelf = (shelf, book) => {
-    if (!this.isNewBooks(book)) {
-      this.setState((state) => ({
-        myBooks: state.myBooks.map(b => {
-          if (b.id === book.id) {
-            b.shelf = shelf
-          }
-          return b
-        })
-      }))
-    } else {
-      this.setState((state) => ({
-        myBooks: state.myBooks.concat([book])
-      }))
-    }
+    book.shelf = shelf
+    this.setState((state) => ({
+      myBooks: state.myBooks.filter(oldBook => oldBook.id !== book.id).concat([book])
+    }))
 
     BooksAPI.update(book, shelf)
   }

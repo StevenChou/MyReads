@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 // import escapeRegExp from 'escape-string-regexp'
 
 import * as BooksAPI from './../utils/BooksAPI'
+import Book from './Book'
 
 class SearchBooks extends Component {
   static propTypes = {
@@ -44,7 +45,7 @@ class SearchBooks extends Component {
   }
 
   handleChange = (shelf, book) => {
-    const { onChangeShelf } = this.props;
+    const { onChangeShelf } = this.props
     onChangeShelf(shelf, book)
 
     const books = this.state.books.map(b => {
@@ -58,7 +59,8 @@ class SearchBooks extends Component {
   }
 
   render() {
-    const { query, books } = this.state;
+    const { query, books } = this.state
+    const { onChangeShelf } = this.props
 
     return (
       <div className="search-books">
@@ -79,24 +81,9 @@ class SearchBooks extends Component {
           <ol className="books-grid">
             {books.map(book => (
               <li key={book.id}>
-                <div className="book">
-                  <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                    <div className="book-shelf-changer">
-                      <select value={book.shelf} onChange={(event) => this.handleChange(event.target.value, book)}>
-                        <option value="" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="book-title">{book.title}</div>
-                  <div className="book-authors">
-                    {book.authors}
-                  </div>
-                </div>
+                <Book
+                  book={book}
+                  onChangeShelf={onChangeShelf} />
               </li>
             ))}
           </ol>
